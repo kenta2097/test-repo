@@ -57,8 +57,6 @@
 
       config = { pkgs, ... }: {
         garnix.deployBranch = "main";
-        # Configuración adicional de Garnix
-        garnix.cachixFlakeInputs = true;
       };
     };
 }
