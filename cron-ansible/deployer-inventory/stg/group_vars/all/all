@@ -1,0 +1,185 @@
+---
+#	To include variables override and specific configurations for the environment.
+
+##	OS Linux
+# Join Linux machines to Windows Domain
+adjoin_domains:
+  - { name: 'amo-dc.local',
+      workgroup: 'AMO-DC',
+      domain_controllers: [
+        'amo-dc.local'
+      ],
+      ldap_base_dn: 'dc=amo-dc,dc=local',
+      computer_objects_path: 'Ecostruxure/Linux/{{ external_vars_environment_tag }}',
+      dyndns_update: false,
+      # The following are only used if dyndns_update is true
+      dyndns_refresh_interval: 86400,  # 24 hours
+      dyndns_ttl: 3600,  # 1 hour
+      dyndns_update_ptr: true,
+      # end dyndns_update section
+      linux_admins: 'LinuxAdmins@amo-dc.local',
+      username: '{{ vault_windows_service_account_domain_admin_user }}',
+      password: '{{ vault_windows_service_account_domain_admin_pass }}' }
+
+adjoin_configure_sudo: yes
+adjoin_sssd_homedir: '/home/%f'
+
+# Chrony configuration
+ntp_timezone: Europe/Madrid
+ntp_servers:
+  - "192.168.93.70 iburst"
+#  - "amo-dc.local iburst"
+
+# Proxy configuration
+proxy_env:
+  http_proxy:   http://gateway.schneider.zscaler.net:9480/
+  https_proxy:  http://gateway.schneider.zscaler.net:9480/
+  ftp_proxy:    http://gateway.schneider.zscaler.net:9480/
+  no_proxy:     localhost,127.0.0.1,10.128.0.0/16,10.214.0.0/16,172.20.0.0/16,172.30.0.0/16,10.234.0.0/16,172.30.0.0/16,192.168.0.0/16,10.179.0.0/16,139.158.0.0/16,github.schneider-electric.com,teamforge.schneider-electric.com,box.com,*.ci-ffaas.schneider-electric.com,*.eur.gad.schneider-electric.com,directory.schneider-electric.com,teamforge.schneider-electric.com,*.spice.schneider-electric.com,spice.schneider-electric.com,thot.schneider-electric.com,digital-brandbook.schneider-electric.com,fs.schneider-electric.com,spiceapps.schneider-electric.com,othello.fr.schneider-electric.com,sgweb,spiceportal.schneider-electric.com,s-sewiki,intranet.de.schneider-electric.com,mobileplatform.schneider-electric.com,de-mhf-cm.schneider-electric.com,aafr0110.schneider-electric.com,semedia.schneider-electric.com,global-brick-catalogue.schneider-electric.com,pso.schneider-electric.com,online.schneider-electric.com,sopna01.aut.schneider-electric.com,s-jira,teamwork.schneider-electric.com,s-ew-iecsvn,documents-svn,ipo.schneider-electric.com,eur-it-support.schneider-electric.com,ocp.schneider-electric.com,qkrintra.schneider-electric.com,testhttp.schneider-electric.com,shoppingkiosk.schneider-electric.com,eprocurement.fr.schneider-electric.com,brand.schneider-electric.com,hotlinet.schneider-electric.com,2929it.schneider-electric.com,edms.schneider-electric.com,appsgovernance.schneider-electric.com,pace.schneider-electric.com,dces.schneider-electric.com,netapp.apc.com,bricks.schneider-electric.com,2929chatsupport.schneider-electric.com,isee.schneider-electric.com,eccos.schneider-electric.com,industry.vcampus.schneider-electric.com,identify.schneider-electric.com,tableau.schneider-electric.com,swebi.schneider-electric.com,global-artifacts.se.com
+
+##  SERVICE MAPS
+amo_service_map:
+  audit:
+    - AMO.MTx.Audit                                 #NSB
+#    - TitaniumSTG.HE.Topology.TopologyManagement
+#    - TitaniumSTG.HE.Topology.TopologyManagement_TX
+#    - TitaniumSTG.MTx.Audit.CommandRequestHandlers
+#    - TitaniumSTG.MTx.Audit.FileTransactionsHandlers
+#    - TitaniumSTG.MTx.Audit.GatewayRequestHandlers
+#    - TitaniumSTG.MTx.Audit.GatewayRequestHandlers.DataAccess
+#    - TitaniumSTG.MTx.Audit.GatewayRequestHandlers_TX
+#    - TitaniumSTG.MTx.Audit.ReadingTransactionsHandlers
+#    - TitaniumSTG.TaskScheduler.TasksHandlers
+  dlms_api:
+    - TitaniumSTG.Simulators.DLMSSimulator          #IIS
+    - TitaniumSTG.Simulators.DLMSSimulatorHandler   #IIS
+  he:
+#    - Titanium.HE.Results.Handlers
+#    - TitaniumSTG.HE.DlmsHE
+#    - TitaniumSTG.HE.DlmsHE.DlmsIn
+#    - TitaniumSTG.HE.DlmsHE.DlmsOut
+#    - TitaniumSTG.HE.DlmsHE.Mapper
+#    - TitaniumSTG.HE.DlmsHE.SetConfiguration
+    - TitaniumSTG.HE.HeadEnd                        #NSB
+#    - TitaniumSTG.HE.Results.ReportStoreHandler
+#    - TitaniumSTG.HE.Results.ResultHandler
+#    - TitaniumSTG.HE.TelecomHE
+  mtx:
+#    - AMO.EventTemplatesHandler
+#    - AMO.Int.FactoryImporters
+#    - AMO.MTx.Infrastructure
+#    - AMO.MTx.Inventory
+#    - AMO.MTx.Inventory.ManageDevice
+#    - AMO.MTx.Operations
+#    - Titanium.MTx.Reports.DBMeterReportRequest
+#    - Titanium.MTx.Reports.Readings.Handlers
+    - TitaniumSTG.API                               #IIS
+#    - TitaniumSTG.Exporters.EESL
+    - TitaniumSTG.Exporters.ReadingsToFile          #TSH
+#    - TitaniumSTG.Int.DC.In
+#    - TitaniumSTG.Int.DC.Out
+#    - TitaniumSTG.MTx.DeviceStateControl.DeviceLifeCycle
+#    - TitaniumSTG.MTx.MeterInventory.ManageDeviceKeys
+#    - TitaniumSTG.MTx.MeterInventory.ManageFactoryImportation
+#    - TitaniumSTG.MTx.MeterInventory.ManageMeterLastContact
+#    - TitaniumSTG.MTx.MeterInventory.SecureMeter
+#    - TitaniumSTG.MTx.Operations.CheckLoadController
+#    - TitaniumSTG.MTx.Operations.CommandsOnGroup
+#    - TitaniumSTG.MTx.Operations.EventMaskChange
+#    - TitaniumSTG.MTx.Operations.MeterDLMS
+#    - TitaniumSTG.MTx.Operations.SendDCOrder
+#    - TitaniumSTG.MTx.Operations.TariffAndFuseSizeChange
+#    - TitaniumSTG.MTx.Reports.ReportRequest
+#    - TitaniumSTG.MTx.Templates.CommandTemplatesHandlers
+#    - TitaniumSTG.ReadingProcesses.FTPExporter
+#    - TitaniumSTG.TaskScheduler.CRFromTaskFinished
+#    - TitaniumSTG.TaskScheduler.GenerateTaskExecutionDetailsHandler
+#    - TitaniumSTG.TaskScheduler.TaskExecution
+#    - TitaniumSTG.TaskScheduler.TasksHandlers
+
+
+
+
+
+
+dlms_service_map:
+  dlms_api:
+    - Titanium.DlmsHE.API
+  dlms_com:
+#    - Titanium.DlmsHE.Communications
+    - Titanium.DlmsHE.CommWorkers
+    - Titanium.DlmsHE.Gateways
+  dlms_evn:
+    - Titanium.DlmsHE.Events
+    - Titanium.DlmsHE.Push
+  dlms_gw:
+    - Titanium.DlmsHE.Collectors
+  dlms_inv:
+    - Titanium.DlmsHE.Inventory
+    - Titanium.DlmsHE.Inventory.ReadSide
+  dlms_lh:
+    - Titanium.DlmsHE.Lighthouse
+  dlms_op:
+    - Titanium.DlmsHE.Operations
+    - Titanium.DlmsHE.Operations.ReadSide
+  dlms_tsk:
+    - Titanium.DlmsHE.DataCollector
+    - Titanium.DlmsHE.DataCollector.ReadSide
+    - Titanium.DlmsHE.TaskScheduling
+    - Titanium.DlmsHE.TaskScheduling.Aggregator
+    - Titanium.DlmsHE.TaskScheduling.ReadSide
+
+
+sma_service_map:
+##  gma_bid:
+##    - SMA.BD.API.In
+##    - SMA.BD.Core
+##    - SMA.BD.Core.Handlers
+  gma_vee:
+    - SMA.Readings.API
+    - SMA.Readings.Handlers
+    - SMA.VEE.API.In
+    - SMA.VEE.Core
+    - SMA.VEE.Core.Handlers
+  gma_vip:
+    - SMA.VirtualPoints.API.In
+    - SMA.VirtualPoints.Core
+    - SMA.VirtualPoints.Core.Handlers
+  int:
+    - SMA.CP.API.In
+    - SMA.CP.MassiveOperationCollector
+    - SMA.CP.Mgmt.Calendar
+    - SMA.CP.Mgmt.CustomerRequest
+    - SMA.CP.Mgmt.ManageDevices
+    - SMA.CP.Mgmt.ManageServicePointInfo
+    - SMA.CP.Mgmt.NetworkTopology
+    - SMA.CP.Mgmt.Reasons
+    - SMA.CP.Operations
+    - SMA.Events.Handlers
+    - SMA.Exporters.EEM
+    - SMA.Exporters.ExportationRequest
+    - SMA.Exporters.ExportationRequestEndpoint
+    - SMA.Exporters.MEW
+    - SMA.Exporters.Readings
+    - SMA.Int.AMQ.In
+    - SMA.Int.AMQ.Out
+    - SMA.Integration.CIM.Service
+    - SMA.Integration.CIM.Web.In
+    - SMA.Integration.CIM.Web.Out
+    - SMA.Integration.SAP.SAPMock.Service
+    - SMA.Integration.SAP.Service
+    - SMA.Integration.SAP.Web
+    - SMA.Integration.Telecom.API.In
+    - SMA.Integration.Telecom.API.Out
+    - SMA.Integration.Telecom.Service
+
+
+ssm_service_map:
+  ssm:
+    - EcoStruxure.SSM.Api
+    - EncDecService
+    - PKIService
+    - StoreService
+
+
+eas_service_map:

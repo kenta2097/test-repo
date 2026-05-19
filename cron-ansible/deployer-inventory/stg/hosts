@@ -1,0 +1,203 @@
+[localhost_connection]
+localhost ansible_connection=local
+
+[devops]
+stg-devops01.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.12.39
+stg-devops02.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.12.40
+stg-devops03.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.12.41
+
+
+[audit]
+stg-audit1.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.12.16
+stg-audit2.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.12.17
+
+[aux]
+stg-aux1.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.10.16
+stg-aux2.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.10.26
+stg-aux3.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.10.36
+stg-aux4.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.10.46
+stg-aux5.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.10.56
+
+[bbddami]
+stg-bbddami1.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.12.64
+#stg-bbddami2.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.12.65
+
+[dc]
+stg-dc1.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.12.129
+
+[dlms_api]
+stg-dlms-api1.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.14.16
+stg-dlms-api2.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.14.17
+
+[dlms_com]
+stg-dlms-com1.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.14.18
+stg-dlms-com2.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.14.19
+
+[dlms_evn]
+#stg-dlms-evn1.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.14.20
+stg-dlms-evn2.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.14.21
+
+[dlms_ext]
+stg-dlms-ext1.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.14.31
+stg-dlms-ext2.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.14.32
+
+[dlms_gw]
+stg-dlms-gw1.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.14.22
+stg-dlms-gw2.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.14.23
+
+[dlms_inv]
+stg-dlms-inv1.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.14.24
+stg-dlms-inv2.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.14.25
+
+[dlms_lh]
+stg-dlms-lh1.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.14.64
+stg-dlms-lh2.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.14.65
+stg-dlms-lh3.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.14.66
+
+[dlms_op]
+stg-dlms-op1.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.14.26
+stg-dlms-op2.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.14.27
+
+[dlms_sec]
+stg-dlms-sec1.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.14.30
+
+[dlms_tsk]
+stg-dlms-tsk1.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.14.28
+stg-dlms-tsk2.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.14.29
+
+[gma_bid]
+stg-sma1.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.12.35
+stg-sma2.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.12.36
+
+[gma_vee]
+stg-sma1.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.12.35
+stg-sma2.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.12.36
+
+[gma_vip]
+stg-sma1.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.12.35
+stg-sma2.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.12.36
+
+[he]
+stg-he1.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.12.18
+stg-he2.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.12.19
+
+[int]
+stg-int1.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.101.21
+stg-int2.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.101.22
+stg-int3.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.101.23
+stg-int4.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.101.24
+
+[lab]
+stg-lab1.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.10.254
+stg-lab2.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.14.130
+stg-lab3.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.14.131
+
+[mgmt]
+stg-mgmt1.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.12.32
+
+[mtx]
+stg-mtx1.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.12.22
+stg-mtx2.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.12.23
+stg-mtx3.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.12.28
+stg-mtx4.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.12.29
+
+[sc]
+stg-sc1.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.12.24
+stg-sc2.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.12.25
+
+#[sma]
+#stg-sma1.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.12.35
+#stg-sma2.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.12.36
+
+[ssm]
+stg-ssm1.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.101.50
+stg-ssm2.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.101.51
+
+
+
+###################################################
+
+[docker]
+svqstgobs01l data_ip="{{ ansible_host }}" ansible_host=192.168.12.37
+#stg-docker01 data_ip="{{ ansible_host }}" ansible_host=192.168.12.38
+#stg-docker03 data_ip="{{ ansible_host }}" ansible_host=192.168.14.133
+
+
+##############################
+#	SOLUTION GROUPS
+##############################
+
+[amo_solution:children]
+
+
+[dlms_solution:children]
+dlms_api
+dlms_com
+dlms_evn
+dlms_ext
+dlms_gw
+dlms_inv
+dlms_lh
+dlms_op
+dlms_sec
+dlms_tsk
+
+
+[sma_solution:children]
+gma_bid
+gma_vee
+gma_vip
+int
+
+
+[ssm_solution:children]
+
+
+
+
+
+##############################
+#	OS GROUPS
+##############################
+
+[linux:children]
+#localhost_connection
+docker
+
+[windows:children]
+devops
+
+audit
+aux
+bbddami
+dc
+dlms_api
+dlms_com
+dlms_evn
+dlms_ext
+dlms_gw
+dlms_inv
+dlms_lh
+dlms_op
+dlms_sec
+dlms_tsk
+gma_bid
+gma_vee
+gma_vip
+he
+int
+lab
+mgmt
+mtx
+sc
+#sma
+ssm
+
+###################################################
+
+
+
+##	ANSIBLE DLMS DEPLOYMENT AUTOMATION TESTING
+
+[liveoptics_test_server]
+stg-lodell.amo-dc.local data_ip="{{ ansible_host }}" ansible_host=192.168.12.128

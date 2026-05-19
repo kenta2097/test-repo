@@ -1,0 +1,8 @@
+# This file supports the boolean configuration method for the modules.
+# All commented leaf properties won't be configured. In order to just
+# configure a certain module, you should comment out all the other
+# modules.
+
+gma:
+  databases:
+    customer_processes:

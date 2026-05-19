@@ -1,0 +1,317 @@
+# =================================================================
+# Licensed Materials - Property of Schneider Electric
+#
+# Configuration file for GMA solution
+# NOTE: since this is a POC, just CustomerProcesses module configuration
+#       has been taken into account and the target environment is Staging Environment
+# =================================================================
+
+# =================================================================
+module_customer_processes:
+  # =================================================================
+  # Miscellaneous configurations
+  miscellaneous:
+      # It specifies how the coordinates are stored in the site entity [SWEREF99, RT90 , -empty-]
+      utility_coordinates_system: SWEREF99
+      # SystemTimeFrame to apply in comunications with HES
+      system_time_frame: 00:01:00
+
+  # =================================================================
+  # NServiceBus configurations
+  n_service_bus:
+      # DataBusProperty shared path
+      data_bus_shared_path: \\amo-mtx1\C$\EcoStruxure\DBPath
+
+  # =================================================================
+  # Submodules configurations
+  submodules:
+      # CIM integration layer parametrization
+      integration_cim_layer:
+          # Is specifies if short GUID must be used in the CIM replies MessageId field
+          use_short_GUID: true
+
+  # =================================================================
+  # Use cases configurations
+  use_cases:
+    # Parameters for every type of CuR
+    # -cr_type  --> Type of CuR (null to apply to all of them)
+    # -source   --> Source of the CuR (null to apply to all of them)
+    customer_requests_parametrization:
+        - cr_type:   null
+          source:    null
+          parameter:
+            - name:     ReferenceTimeout
+              value:    06:30:00
+        - cr_type:   null
+          source:    null
+          parameter:
+            - name:     SystemPriority
+              value:    1
+        - cr_type:   DemandChange
+          source:    CIMIntegration
+          parameter:
+            - name:     ReferenceTimeout
+              value:    00:30:00
+
+    # Get readings use case from integration layer
+    integration_get_readings:
+        # Polling period to get readings
+        polling_interval: 00:01:00
+        # Percentage of available TimeOut period to dedicate to get the real readings from device
+        timeout_fraction_to_get_real_reading : 90
+
+    # Meter installation use case    
+    meter_installation:
+        # It specifies if Meter Installation process must wait for initial commands completion or not
+        wait_for_initial_command_completion: false     
+    
+    # Power limitation use case 
+    power_limitation:
+        # It specifies if the power specified by the user must be divided by phases to configure the power limitation
+        divided_by_phases: true
+
+    # Factory information importation use case
+    factory_info_importation:
+        # Specifies whether UtilityDeviceId is optional during factory imporation. If yes, DeviceId is used as UtilityDeviceId.
+        utility_device_id_optional: true
+    
+    # Meter readings reexportation use case
+    reexportation_on_demand:
+        # Max meters in exportation on demand request
+        meter_limit: 1000
+        # Max days in exportation on demand request
+        days_limit: 30
+
+    #Configuration associated to collectors to process different types of files
+    file_collector:
+      batch_size:                     10
+      retries:                        5
+      time_between_retries:           250
+      schedule:                       0/1 * * * * ? *
+      min_threads:                    0
+      max_threads:                    2
+      lock_file_caducity_hours:       24
+      error_name_folder:              ERROR
+      max_mb_per_batch:               0
+      max_items_per_batch:            10
+      max_items_per_polling:          100
+      process_only_full_batches:      false
+      notify_task_execution:          false
+      update_performance_counters:    false
+      performance_counters_category:  TitaniumSTG
+      polling_min_interval_seconds:   1
+      file_transaction_enabled:       true
+
+      # File to receive meter installations
+      meter_installation:
+        # Parameters that control the instantiation or not of this collector process
+        instantiate_collector:          true
+        file_header:                    [Caller,ExternalRequestId,InstallationDateTime,UtilityServicePointId,Utility,Name,X,Y,MainAddress,SecondaryAddress,Type,TransformerId,TSId,LoadRestrictionPercentage,MultiplierFactor,CTExtNum,VTExtNum,CTExtDenom,VTExtDenom,ContractualTariff,ContractualLoad_T1,ContractualLoad_T2,ContractualLoad_T3,ContractualLoad_T4,ContractualLoad_T5,ContractualLoad_T6,ContractualLoad_T7,ContractualLoad_T8,ContractualLoad_Total,ServiceId_1,ServiceId_2,ServiceId_3,ServiceId_4,ServiceId_5,ServiceId_6,DeviceId,UtilityDeviceId,SerialNumber,DeviceType,IP,SimId,Companion,CompanionVersion,HeadEnd,UtilityContractId,UtilityCustomerId,Tariff,PowerLimit_T1,PowerLimit_T2,PowerLimit_T3,PowerLimit_T4,PowerLimit_T5,PowerLimit_T6,PowerLimit_T7,PowerLimit_T8,GroupId,RegionId,ZoneId,FeederId]
+        input_folder:                   C:\Factory\SMA_MeterInstallation\INPUT
+        output_processed_folder:        C:\Factory\SMA_MeterInstallation\OUTPUT_PROCESSED_FOLDER
+
+      # File to receive gateway installations
+      gateway_installation:
+        # Parameters that control the instantiation or not of this collector process
+        instantiate_collector:          true
+        file_header:                    [CALLER,EXTERNAL_REQUEST_ID,INSTALLATION_DATE_TIME,UTILITY_SITE_ID,NAME,X,Y,MAIN_ADDRESS,SECONDARY_ADDRESS,TYPE,DEVICE_ID,PROTOCOL,PROTOCOL_VERSION,TLS_ENABLED,MODEL,DEVICE_TYPE,DEVICE_SUB_TYPE,UTILITY,IP_ADDRESS,PORT,COMMUNICATION_TYPE,UTILITY_DEVICE_ID,ZONE,REGION]
+        input_folder:                   C:\Factory\SMA_FactoryCollector_GATEWAYINSTALLATION\INPUT
+        output_processed_folder:        C:\Factory\SMA_FactoryCollector_GATEWAYINSTALLATION\OUTPUT_PROCESSED_FOLDER
+
+      # File to sync service point information
+      sync_service_point_info:
+        # Parameters that control the instantiation or not of this collector process
+        instantiate_collector:          true
+        input_folder:                   C:\Factory\SMA_SYNCSERVICEPOINTINFO\INPUT
+        output_processed_folder:        C:\Factory\SMA_SYNCSERVICEPOINTINFO\OUTPUT_PROCESSED_FOLDER
+
+      # File to receive meter dismantles
+      meter_dismantling: 
+        # Parameters that control the instantiation or not of this collector process
+        instantiate_collector:          true           
+        file_header:                    [Caller,ExternalRequestId,DismantleDatetime,UtilityServicePointId,UtilityDeviceId]
+        input_folder:                   C:\Factory\SMA_MeterDismantling\INPUT
+        output_processed_folder:        C:\Factory\SMA_MeterDismantling\OUTPUT_PROCESSED_FOLDER
+        
+      # File to receive gateway dismantlings           
+      gateway_dismantling:
+        # Parameters that control the instantiation or not of this collector process
+        instantiate_collector:          true
+        file_header:                    [CALLER,EXTERNAL_REQUEST_ID,DISMANTLE_DATE_TIME,DEVICE_ID]
+        input_folder:                   C:\Factory\FactoryCollector_GATEWAYDISMANTLING\INPUT
+        output_processed_folder:        C:\Factory\FactoryCollector_GATEWAYDISMANTLING\OUTPUT_PROCESSED_FOLDER
+
+      # File to receive meter replacements
+      meter_replacement:
+        # Parameters that control the instantiation or not of this collector process
+        instantiate_collector:          true
+        file_header:                    [Caller,ExternalRequestId,InstallationDateTime,UtilityServicePointId,Utility,Name,X,Y,MainAddress,SecondaryAddress,Type,TransformerId,TSId,Group,Zone,Region,FeederId,PhaseCode,TransformerRating,LoadRestrictionPercentage,MultiplierFactor,CTExtNum,VTExtNum,CTExtDenomValue,VTExtDenomValue,ContractualTariff,ContractualLoad_T1,ContractualLoad_T2,ContractualLoad_T3,ContractualLoad_T4,ContractualLoad_T5,ContractualLoad_T6,ContractualLoad_T7,ContractualLoad_T8,ContractualLoad_Total,ServiceId_1,ServiceId_2,ServiceId_3,ServiceId_4,ServiceId_5,ServiceId_6,DeviceId,UtilityDeviceId,SerialNumber,DeviceType,IP,SimId,Companion,CompanionVersion,HeadEnd,OldDeviceId,OldUtilityDeviceId,OldSerialNumber,OldDeviceType,UtilityContractId,UtilityCustomerId,Tariff,PowerLimit_T1,PowerLimit_T2,PowerLimit_T3,PowerLimit_T4,PowerLimit_T5,PowerLimit_T6,PowerLimit_T7,PowerLimit_T8,OldMeterReadingCIMCode_01,OldMeterReadingValue_01,OldMeterReadingCIMCode_02,OldMeterReadingValue_02,OldMeterReadingCIMCode_03,OldMeterReadingValue_03,OldMeterReadingCIMCode_04,OldMeterReadingValue_04,OldMeterReadingCIMCode_05,OldMeterReadingValue_05,OldMeterReadingCIMCode_06,OldMeterReadingValue_06,OldMeterReadingCIMCode_07,OldMeterReadingValue_07,NewMeterReadingCIMCode_01,NewMeterReadingValue_01,NewMeterReadingCIMCode_02,NewMeterReadingValue_02,NewMeterReadingCIMCode_03,NewMeterReadingValue_03,NewMeterReadingCIMCode_04,NewMeterReadingValue_04,NewMeterReadingCIMCode_05,NewMeterReadingValue_05,NewMeterReadingCIMCode_06,NewMeterReadingValue_06,NewMeterReadingCIMCode_07,NewMeterReadingValue_07]
+        input_folder:                   C:\Factory\SMA_MeterReplacement\INPUT
+        output_processed_folder:        C:\Factory\SMA_MeterReplacement\OUTPUT_PROCESSED_FOLDER
+
+      # File to receive gateway replacements
+      gateway_replacement:
+        # Parameters that control the instantiation or not of this collector process
+        instantiate_collector:          true
+        file_header:                    [CALLER,EXTERNAL_REQUEST_ID,REPLACEMENT_DATE_TIME,UTILITY_SITE_ID,NAME,DEVICE_ID,PROTOCOL,PROTOCOL_VERSION,MODEL,DEVICE_TYPE,DEVICE_SUB_TYPE,UTILITY,IP,PORT,COMMUNICATION_TYPE,OLD_DEVICE_ID,UTILITY_DEVICE_ID,MAIN_ADDRESS,ZONE,REGION]
+        input_folder:                   C:\Factory\FactoryCollector_GATEWAYREPLACEMENT\INPUT
+        output_processed_folder:        C:\Factory\FactoryCollector_GATEWAYREPLACEMENT\OUTPUT_PROCESSED_FOLDER
+
+      # File to receive sim replacements
+      sim_replacement:
+        # Parameters that control the instantiation or not of this collector process
+        instantiate_collector:          true
+        file_header:                    [DEVICE_ID,DEVICE_TYPE,IMSI,ICCID]
+        input_folder:                   C:\Factory\SMA_SIMReplacement\INPUT
+        output_processed_folder:        C:\Factory\SMA_SIMReplacement\OUTPUT_PROCESSED_FOLDER
+        
+      # File to receive comm module replacements
+      comm_module_replacement:
+        # Parameters that control the instantiation or not of this collector process
+        instantiate_collector:          true
+        file_header:                    [ExternalRequestId,Caller,ReplacementDateTime,UtilityDeviceId,UtilityComModuleId]
+        input_folder:                   C:\Factory\SMA_ComModuleReplacement\INPUT
+        output_processed_folder:        C:\Factory\SMA_ComModuleReplacement\OUTPUT_PROCESSED_FOLDER
+
+      # File to receive comm module factory info
+      comm_module_sec_factory_info:
+        # Parameters that control the instantiation or not of this collector process
+        instantiate_collector:          true
+        input_folder:                   C:\Factory\SMA_FactoryCollector_COMM_MODULE_SEC\INPUT
+        output_processed_folder:        C:\Factory\SMA_FactoryCollector_COMM_MODULE_SEC\OUTPUT_PROCESSED_FOLDER
+
+      # File to receive comm module factory info
+      comm_module_factory_info:
+        # Parameters that control the instantiation or not of this collector process
+        instantiate_collector:          true
+        file_header:                    [MANUFACTURER_SERIAL_NUMBER,DEVICE_MODEL_NUMBER,DEVICE_COMMUNICATION_TECHNOLOGY,DEVICE_FIRMWARE_VERSION,DEVICE_IMEI_NUMBER,VENDOR,UTILITY,DEVICE_UTILITYID]
+        input_folder:                   C:\Factory\SMA_FactoryCollector_COMM_MODULE\INPUT
+        output_processed_folder:        C:\Factory\SMA_FactoryCollector_COMM_MODULE\OUTPUT_PROCESSED_FOLDER
+
+      # File to receive electricity meters factory info
+      e_meter_factory_info:
+        # Parameters that control the instantiation or not of this collector process
+        instantiate_collector:          true
+        file_header:                    [DEVICE_ID,MANUFACTURER_SERIAL_NUMBER,DEVICE_TYPE,DEVICE_SUBTYPE,DEVICE_MODEL_NUMBER,DEVICE_MANUFACTURER_ABBREVIATION,DEVICE_MANUFACTURING_YEAR,DEVICE_CALIBRATION_YEAR,DEVICE_PROTOCOL,DEVICE_PROTOCOL_VERSION,DEVICE_MAC_ADDRESS,DEVICE_FIRMWARE_VERSION,DEVICE_CONFIGURATION_VERSION,DEVICE_DISPLAY_REGISTER_DIGIT,DEVICE_COMMUNICATION_TECHNOLOGY,DEVICE_COMMUNICATION_MODULE_MODEL,DEVICE_COMMUNICATION_MODULE_SERIAL_NUMBER,DEVICE_COMMUNICATION_MODULE_MANUFACTURING_YEAR,DEVICE_COMMUNICATION_MODULE_FIRMWARE_VERSION,DEVICE_COMMUNICATION_MODULE_IMEI_NUMBER,DLMS_TCP_PORT,DLMS_COMMUNICATION_PROFILE,DLMS_CLIENT_ID,DLMS_MASTER_KEY,DLMS_AUTHENTICATION_KEY,DLMS_GUC,DLMS_SECURITY_SECRET,DLMS_SECURITY_POLICY,DLMS_AUTHENTICATION_MECHANISM,DLMS_SECURITY_SUITE,COMPANION,COMPANION_VERSION,DEVICE_UTILITYID,UTILITY,INTERNAL_CT_NOMINATOR,INTERNAL_CT_DENOMINATOR,DISCOVER_ID]
+        input_folder:                   C:\Factory\SMA_FactoryCollector_EMETER\INPUT
+        output_processed_folder:        C:\Factory\SMA_FactoryCollector_EMETER\OUTPUT_PROCESSED_FOLDER 
+
+      # File to receive electricity jecacy meters factory info
+      legacy_e_meter_factory_info:
+        # Parameters that control the instantiation or not of this collector process
+        instantiate_collector:          true
+        input_folder:                   C:\Factory\SMA_FactoryCollector_LEGACY_EMETER\INPUT
+        output_processed_folder:        C:\Factory\SMA_FactoryCollector_LEGACY_EMETER\OUTPUT_PROCESSED_FOLDER      
+        
+      # File to receive water meters factory info
+      w_meter_factory_info:
+        # Parameters that control the instantiation or not of this collector process
+        instantiate_collector:          true
+        file_header:                    [DEVICE_ID,MANUFACTURER_SERIAL_NUMBER,RADIO_ID,DEVICE_TYPE,DEVICE_MODEL_NUMBER,DEVICE_MANUFACTURER_ABBREVIATION,DEVICE_PIPE_SIZE,DEVICE_MANUFACTURING_YEAR,DEVICE_PROTOCOL,DEVICE_PROTOCOL_VERSION,DEVICE_MAC_ADDRESS,DEVICE_FIRMWARE_VERSION,DEVICE_CONFIGURATION_VERSION,DEVICE_DISPLAY_REGISTER_DIGIT,DEVICE_COMMUNICATION_TECHNOLOGY,MASTER_KEY_WMBUS_AES128,DEVICE_COMMUNICATION_MODULE_MODEL,DEVICE_UTILITYID,UTILITY,COMPANION,COMPANION_VERSION,DISCOVER_ID]
+        input_folder:                   C:\Factory\SMA_FactoryCollector_WMETER\INPUT
+        output_processed_folder:        C:\Factory\SMA_FactoryCollector_WMETER\OUTPUT_PROCESSED_FOLDER
+
+      # File to receive SIM cards factory info
+      sim_factory_info:
+        # Parameters that control the instantiation or not of this collector process
+        instantiate_collector:          true
+        file_header:                    [IMSI,ICCID,IP_ADDRESS,RADIUS_SERVER_IP,APN,SERVICE_STATE,VENDOR,UTILITY]
+        input_folder:                   C:\Factory\SMA_FactoryCollector_SIM\INPUT
+        output_processed_folder:        C:\Factory\SMA_FactoryCollector_SIM\OUTPUT_PROCESSED_FOLDER 
+
+      # File to receive gateways factory info
+      gateway_factory_info:
+        # Parameters that control the instantiation or not of this collector process
+        instantiate_collector:          true
+        file_header:                    [DEVICE_ID,MANUFACTURER_SERIAL_NUMBER,DEVICE_TYPE,DEVICE_MODEL_NUMBER,DEVICE_MANUFACTURER_ABBREVIATION,DEVICE_MANUFACTURING_YEAR,DEVICE_PROTOCOL,DEVICE_PROTOCOL_VERSION,DEVICE_IP_ADDRESS,DEVICE_MAC_ADDRESS,DEVICE_FIRMWARE_VERSION,DEVICE_COMMUNICATION_TECHNOLOGY,DEVICE_COMMUNICATION_MODULE_MODEL,DEVICE_COMMUNICATION_MODULE_NUMBER,DLMS_TCP_PORT,DLMS_COMMUNICATION_PROFILE,DLMS_CLIENT_ID,DLMS_MASTER_KEY,DLMS_AUTHENTICATION_KEY,DLMS_GUC,DLMS_SECURITY_SECRET,DLMS_SECURITY_POLICY,DLMS_AUTHENTICATION_MECHANISM,DLMS_SECURITY_SUITE,DEVICE_LOGIN,DEVICE_PASSWORD,DEVICE_DEFAULT_PORTAL_ADDRESS,DEVICE_DEFAULT_PORTAL_PORT,COMPANION,COMPANION_VERSION,DEVICE_UTILITYID,UTILITY,DISCOVER_ID]
+        input_folder:                   C:\Factory\SMA_FactoryCollector_GATEWAY\INPUT
+        output_processed_folder:        C:\Factory\SMA_FactoryCollector_GATEWAY\OUTPUT_PROCESSED_FOLDER 
+
+  # ===============================================================
+  #ServicePoints services
+  service_point_services:
+    - service_name: Prepayment
+      service_type: ReadingServices
+      parameters:
+        - name:         InitialState
+          value:        Activated
+    - service_name: Postpayment
+      service_type: ReadingServices
+      parameters:
+        - name:         InitialState
+          value:        Activated
+    - service_name: consumer
+      service_type: ReadingServices
+      parameters:
+        - name:         InitialState
+          value:        Activated
+    - service_name: producer
+      service_type: ReadingServices
+      parameters:
+        - name:         InitialState
+          value:        Activated
+    - service_name: consumer/producer
+      service_type: ReadingServices
+      parameters:
+        - name:         InitialState
+          value:        Activated
+    - service_name: LoadProfileRecovery
+      service_type: HoleManagement
+      parameters:
+        - name:         InitialState
+          value:        Activated
+        - name:         Period
+          value:        15
+        - name:         Schedule
+          value:        0/15 * * * *
+        - name:         LPIntervalParameterToDisableHoleManagementService
+          value:        LPInterval1
+        - name:         ReadingType
+          value:        ELoadProfile
+    - service_name: DailyProfileRecovery
+      service_type: HoleManagement
+      parameters:
+        - name:         InitialState
+          value:        Activated
+        - name:         Period
+          value:        1440
+        - name:         Schedule
+          value:        0 0 * * *
+        - name:         LPIntervalParameterToDisableHoleManagementService
+          value:        LPInterval2
+        - name:         ReadingType
+          value:        EDailyProfile
+    - service_name: PowerQualityRecovery
+      service_type: HoleManagement
+      parameters:
+        - name:         InitialState
+          value:        Activated
+        - name:         Period
+          value:        10
+        - name:         Schedule
+          value:        0/10 * * * *
+        - name:         LPIntervalParameterToDisableHoleManagementService
+          value:        LPInterval3
+        - name:         ReadingType
+          value:        PowerQualityProfile
+    - service_name: PowerQualityExtendedRecovery
+      service_type: HoleManagement
+      parameters:
+        - name:         InitialState
+          value:        Activated
+        - name:         Period
+          value:        10
+        - name:         Schedule
+          value:        0/10 * * * *
+        - name:         LPIntervalParameterToDisableHoleManagementService
+          value:        LPInterval4
+        - name:         ReadingType
+          value:        PowerQualityExtendedProfile
+
+  # ===============================================================
+  # Connections to other modules
+  connections_other_modules:
+    billing_determinant: 
+      # Specifies wether the Billing determinant module is installed
+      has_billing_determinant_module_installed: false
+

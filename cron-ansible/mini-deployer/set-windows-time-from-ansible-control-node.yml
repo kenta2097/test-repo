@@ -1,0 +1,11 @@
+- name: Set system time on Windows servers to match Ansible control machine time
+  hosts: dc
+  gather_facts: false
+  tasks:
+#    - name: "Get current time from Ansible control machine"
+#      command: date "+%Y-%m-%d %H:%M:%S"
+#      register: current_time
+#    - name: "Set system time on Windows servers"
+#      win_shell: Set-Date -Date "{{ current_time.stdout }}"
+    - name: "Set Windows time to Ansible machine time"
+      win_command: date {{ ansible_date_time.date }} && time {{ ansible_date_time.time }}

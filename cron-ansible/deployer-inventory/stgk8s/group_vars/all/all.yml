@@ -1,0 +1,59 @@
+---
+#	To include variables override and specific configurations for the environment.
+
+##	OS
+# Chrony configuration
+ntp_timezone: Etc/UTC
+ntp_servers:
+  - "192.168.93.70 iburst"
+
+# Proxy configuration
+proxy_env:
+  http_proxy:   http://gateway.schneider.zscaler.net:9480/
+  https_proxy:  http://gateway.schneider.zscaler.net:9480/
+  ftp_proxy:    http://gateway.schneider.zscaler.net:9480/
+  no_proxy:     localhost,127.0.0.1,10.128.0.0/16,10.214.0.0/16,172.20.0.0/16,172.30.0.0/16,10.234.0.0/16,172.30.0.0/16,192.168.0.0/16,10.179.0.0/16,139.158.0.0/16,github.schneider-electric.com,teamforge.schneider-electric.com,box.com,*.ci-ffaas.schneider-electric.com,*.eur.gad.schneider-electric.com,directory.schneider-electric.com,teamforge.schneider-electric.com,*.spice.schneider-electric.com,spice.schneider-electric.com,thot.schneider-electric.com,digital-brandbook.schneider-electric.com,fs.schneider-electric.com,spiceapps.schneider-electric.com,othello.fr.schneider-electric.com,sgweb,spiceportal.schneider-electric.com,s-sewiki,intranet.de.schneider-electric.com,mobileplatform.schneider-electric.com,de-mhf-cm.schneider-electric.com,aafr0110.schneider-electric.com,semedia.schneider-electric.com,global-brick-catalogue.schneider-electric.com,pso.schneider-electric.com,online.schneider-electric.com,sopna01.aut.schneider-electric.com,s-jira,teamwork.schneider-electric.com,s-ew-iecsvn,documents-svn,ipo.schneider-electric.com,eur-it-support.schneider-electric.com,ocp.schneider-electric.com,qkrintra.schneider-electric.com,testhttp.schneider-electric.com,shoppingkiosk.schneider-electric.com,eprocurement.fr.schneider-electric.com,brand.schneider-electric.com,hotlinet.schneider-electric.com,2929it.schneider-electric.com,edms.schneider-electric.com,appsgovernance.schneider-electric.com,pace.schneider-electric.com,dces.schneider-electric.com,netapp.apc.com,bricks.schneider-electric.com,2929chatsupport.schneider-electric.com,isee.schneider-electric.com,eccos.schneider-electric.com,industry.vcampus.schneider-electric.com,identify.schneider-electric.com,tableau.schneider-electric.com,swebi.schneider-electric.com,global-artifacts.se.com
+
+# Join Linux machines to Windows Domain
+adjoin_domains:
+  - { name: 'amo-dc.local',
+      workgroup: 'AMO-DC',
+      domain_controllers: [
+        'amo-dc.local'
+      ],
+      ldap_base_dn: 'dc=amo-dc,dc=local',
+      computer_objects_path: 'Ecostruxure/Linux/{{ external_vars_environment_tag }}',
+      dyndns_update: false,
+      # The following are only used if dyndns_update is true
+      dyndns_refresh_interval: 86400,  # 24 hours
+      dyndns_ttl: 3600,  # 1 hour
+      dyndns_update_ptr: true,
+      # end dyndns_update section
+      linux_admins: 'LinuxAdmins@amo-dc.local',
+      username: '{{ vault_windows_service_account_domain_admin_user }}',
+      password: '{{ vault_windows_service_account_domain_admin_pass }}' }
+
+adjoin_configure_sudo: yes
+adjoin_sssd_homedir: '/home/%f'
+
+
+## Used to specify the ports where the services are running
+port_mapping:
+  # It specifies port to connect with SSM client
+  ssm_service_client_port: 5001
+  # AuditTrail service
+  audit_trail_port: 5001
+  # SQL Database port
+  database_port: 1433
+
+# Artifactory and Github repo configuration
+base_artifactory_url:		  https://global-artifacts.se.com/artifactory
+artifactory_generic_repo:	em-dgedge-generic-dev-virtual
+base_github_url:			    https://github.schneider-electric.com
+
+# Base paths
+#linux_base_path:	/data
+#windows_base_path:	c:
+
+# Number of artifacts after distribution/download
+artifact_retention_number:	2

@@ -1,0 +1,29 @@
+---
+
+ansible_connection: psrp
+#ansible_port: 5986		#HTTPS
+ansible_port: 5985		#HTTP
+
+# Windows user/pass
+ansible_user: "{{ vault_windows_service_account_user }}"
+ansible_password: "{{ vault_windows_service_account_pass }}"
+ansible_become_pass: "{{ vault_windows_service_account_pass }}"
+
+
+## PSRP Ansible configuration
+ansible_psrp_protocol: http
+ansible_psrp_cert_validation: ignore
+
+# Timeout parameters due to connection drops
+#ansible_psrp_operation_timeout: 20
+#ansible_psrp_read_timeout: 30
+
+
+## Winrm Ansible configuration
+ansible_winrm_server_cert_validation: ignore
+ansible_winrm_transport: ntlm
+ansible_winrm_proxy: ~	#Deactivates Proxy on ansible
+
+# Timeout parameters due to connection drops
+ansible_winrm_operation_timeout_sec: 120
+ansible_winrm_read_timeout_sec: 150
