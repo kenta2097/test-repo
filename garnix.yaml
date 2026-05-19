@@ -1,0 +1,9 @@
+outputs:
+  - "packages.*"
+  - "devShells.*"
+  - "checks.*"
+
+checks:
+  disabled: false
+
+publishReleases: false
