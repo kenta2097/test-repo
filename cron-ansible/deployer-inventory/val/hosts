@@ -1,0 +1,140 @@
+# In this file you should specify groups of machines that correspond to the service.
+# Left here are the examples of how it could be configured.
+# The lines that begin with the '#' are going to be ignored.
+
+#[local_repo]
+# <SERVER_NAME>.<DOMAIN> data_ip="{{ ansible_host }}" ansible_host=192.168.xx.xx
+
+##AMOVAL
+#10.132.243.166 AMO-sim1
+#10.132.243.167 AMO-sma1
+#10.132.243.168 AMO-sc1
+#10.132.243.174 AMO-mtx1
+#10.132.243.175 AMO-col1
+#10.132.243.179 AMO-audit1
+#10.132.243.180 AMO-dlms1
+#10.132.243.181 AMO-he1
+#10.132.243.242 AMO-ui1
+#10.132.243.210 AMO-ssdb1
+#10.132.243.215 TSTG_ddbb
+
+
+
+[devops]
+
+[audit]
+
+[aux]
+
+[bbddami]
+amo-ssdb1.sgs.local data_ip="{{ ansible_host }}" ansible_host=10.132.243.210
+
+[dc]
+
+[dlms_api]
+
+[dlms_com]
+
+[dlms_evn]
+
+[dlms_ext]
+
+[dlms_gw]
+
+[dlms_inv]
+
+[dlms_lh]
+
+[dlms_op]
+
+[dlms_sec]
+
+[dlms_tsk]
+
+[gma_bid]
+
+[gma_vee]
+
+[gma_vip]
+
+[he]
+
+[int]
+
+[lab]
+
+[mgmt]
+
+[mtx]
+
+[sc]
+
+[sma]
+
+[ssm]
+
+###################################################
+
+[docker]
+
+##############################
+#	SOLUTION GROUPS
+##############################
+
+[amo_solution:children]
+
+[dlms_solution:children]
+dlms_api
+dlms_com
+dlms_evn
+dlms_ext
+dlms_gw
+dlms_inv
+dlms_lh
+dlms_op
+dlms_sec
+dlms_tsk
+
+[sma_solution:children]
+gma_bid
+gma_vee
+gma_vip
+int
+
+[ssm_solution:children]
+
+##############################
+#	OS GROUPS
+##############################
+
+[linux:children]
+docker
+
+[windows:children]
+devops
+
+audit
+aux
+bbddami
+dc
+dlms_api
+dlms_com
+dlms_evn
+dlms_ext
+dlms_gw
+dlms_inv
+dlms_lh
+dlms_op
+dlms_sec
+dlms_tsk
+gma_bid
+gma_vee
+gma_vip
+he
+int
+lab
+mgmt
+mtx
+sc
+#sma
+ssm

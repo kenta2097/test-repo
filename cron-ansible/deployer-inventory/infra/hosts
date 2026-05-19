@@ -1,0 +1,91 @@
+[localhost_connection]
+localhost ansible_connection=local
+
+[devops]
+
+
+[dc]
+
+
+[hyperv]
+HyperV01 data_ip="{{ ansible_host }}" ansible_host=192.168.20.111
+HyperV02 data_ip="{{ ansible_host }}" ansible_host=192.168.20.112
+HyperV03 data_ip="{{ ansible_host }}" ansible_host=192.168.20.113
+HyperV04 data_ip="{{ ansible_host }}" ansible_host=192.168.20.114
+HyperV05 data_ip="{{ ansible_host }}" ansible_host=192.168.20.115
+HyperV06 data_ip="{{ ansible_host }}" ansible_host=192.168.20.116
+HyperV07 data_ip="{{ ansible_host }}" ansible_host=192.168.20.117
+HyperV08 data_ip="{{ ansible_host }}" ansible_host=192.168.20.118
+HyperV09 data_ip="{{ ansible_host }}" ansible_host=192.168.20.119
+HyperV10 data_ip="{{ ansible_host }}" ansible_host=192.168.20.120
+HyperV11 data_ip="{{ ansible_host }}" ansible_host=192.168.20.121
+HyperV12 data_ip="{{ ansible_host }}" ansible_host=192.168.20.122
+
+
+[energuate]
+SVQEnerbdmzDC1 data_ip="{{ ansible_host }}" ansible_host=10.156.233.194
+SVQEnerpdmzDC1 data_ip="{{ ansible_host }}" ansible_host=10.156.233.150
+SVQENERBDMZDMS1 data_ip="{{ ansible_host }}" ansible_host=10.156.233.195
+SVQENERBDMZHIS1 data_ip="{{ ansible_host }}" ansible_host=10.156.233.196
+SVQENERBDMZINT1 data_ip="{{ ansible_host }}" ansible_host=10.156.233.197
+SVQENERBDMZWEB1 data_ip="{{ ansible_host }}" ansible_host=10.156.233.198
+SVQENERPDMZDMS1 data_ip="{{ ansible_host }}" ansible_host=10.156.233.130
+SVQENERPDMZHIS1 data_ip="{{ ansible_host }}" ansible_host=10.156.233.131
+SVQENERPDMZINT1 data_ip="{{ ansible_host }}" ansible_host=10.156.233.132
+SVQENERPDMZWEB1 data_ip="{{ ansible_host }}" ansible_host=10.156.233.133
+SVQEnerbcorDC1 data_ip="{{ ansible_host }}" ansible_host=10.156.233.66
+SVQEnerpcorDC1 data_ip="{{ ansible_host }}" ansible_host=10.156.233.2
+SVQEnerbcorDMS1 data_ip="{{ ansible_host }}" ansible_host=10.156.233.67
+SVQEnerbcorFEP1 data_ip="{{ ansible_host }}" ansible_host=10.156.233.69
+SVQEnerbcorHIS1 data_ip="{{ ansible_host }}" ansible_host=10.156.233.68
+SVQEnerbcorSIM1 data_ip="{{ ansible_host }}" ansible_host=10.156.233.71
+SVQEnerbcrICCP1 data_ip="{{ ansible_host }}" ansible_host=10.156.233.70
+SVQEnerbcorWS1 data_ip="{{ ansible_host }}" ansible_host=10.156.233.72
+SVQEnerpcorDMS1 data_ip="{{ ansible_host }}" ansible_host=10.156.233.3
+SVQEnerpcorDMS2 data_ip="{{ ansible_host }}" ansible_host=10.156.233.4
+SVQEnerpcorFEP1 data_ip="{{ ansible_host }}" ansible_host=10.156.233.10
+SVQEnerpcorFEP2 data_ip="{{ ansible_host }}" ansible_host=10.156.233.11
+SVQEnerpcorHIS1 data_ip="{{ ansible_host }}" ansible_host=10.156.233.5
+SVQEnerpcorHIS2 data_ip="{{ ansible_host }}" ansible_host=10.156.233.6
+SVQEnerpcorNSS1 data_ip="{{ ansible_host }}" ansible_host=10.156.233.7
+SVQEnerpcorSIM1 data_ip="{{ ansible_host }}" ansible_host=10.156.233.12
+SVQEnerpcrICCP1 data_ip="{{ ansible_host }}" ansible_host=10.156.233.8
+SVQEnerpcrICCP2 data_ip="{{ ansible_host }}" ansible_host=10.156.233.9
+SVQEnerpcorW1 data_ip="{{ ansible_host }}" ansible_host=10.156.233.13
+SVQEnerpcorW2 data_ip="{{ ansible_host }}" ansible_host=10.156.233.14
+SVQEnerpcorW3 data_ip="{{ ansible_host }}" ansible_host=10.156.233.15
+SVQEnerbstgDC1 data_ip="{{ ansible_host }}" ansible_host=10.156.234.66
+SVQEnerpstgDC1 data_ip="{{ ansible_host }}" ansible_host=10.156.234.2N
+SVQENERBSTGDMS1 data_ip="{{ ansible_host }}" ansible_host=10.156.234.67
+SVQENERBSTGFEP1 data_ip="{{ ansible_host }}" ansible_host=10.156.234.70
+SVQENERBSTGHIS1 data_ip="{{ ansible_host }}" ansible_host=10.156.234.68
+SVQENERBSTGSTG1 data_ip="{{ ansible_host }}" ansible_host=10.156.234.69
+SVQENERPSTGDMS1 data_ip="{{ ansible_host }}" ansible_host=10.156.234.3
+SVQENERPSTGFEP1 data_ip="{{ ansible_host }}" ansible_host=10.156.234.6
+SVQENERPSTGHIS1 data_ip="{{ ansible_host }}" ansible_host=10.156.234.4
+SVQENERPSTGSTG1 data_ip="{{ ansible_host }}" ansible_host=10.156.234.5
+SVQENERPSTGW1 data_ip="{{ ansible_host }}" ansible_host=10.156.234.73
+SVQENERPSTGW2 data_ip="{{ ansible_host }}" ansible_host=10.156.234.83
+
+
+###################################################
+
+[docker]
+svqinfrobse01l data_ip="{{ ansible_host }}" ansible_host=172.28.97.25
+
+
+##############################
+#	OS GROUPS
+##############################
+
+[linux:children]
+localhost_connection
+docker
+
+[windows:children]
+devops
+dc
+hyperv
+energuate
+
+###################################################

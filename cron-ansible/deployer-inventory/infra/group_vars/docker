@@ -1,0 +1,10 @@
+---
+
+ansible_user: "{{ vault_ansible_user }}"
+
+# THIS VARIABLE MUST BE ENCRYPTED IN PRODUCTION.
+# IN ORDER TO ENCRYPT AN INLINE VARIABLE , FOLLOW THE NEXT LINKS:
+# https://github.com/jborean93/PowerShell-AnsibleVault (from Windows)
+# https://docs.ansible.com/ansible/2.9/user_guide/vault.html#use-encrypt-string-to-create-encrypted-variables-to-embed-in-yaml (from Linux)
+ansible_password: "{{ vault_ansible_password }}"
+ansible_become_pass: "{{ vault_ansible_become_pass }}"
